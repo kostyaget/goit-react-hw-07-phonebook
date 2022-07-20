@@ -32,7 +32,7 @@ export const DeleteBtn = styled.button`
   height: 27px;
   padding: 0;
   margin: 0 20px 0 50px;
-  color: #3498db;
+  color: rgb(144,58,180);;
   background-color: transparent;
   border: none;
   transition: all 250ms ease-in-out;

@@ -17,7 +17,8 @@ export const PhonebookList = styled.ul`
   width: 460px;
   border: 1px solid darkgray;
   border-radius: 5px;
-  background-color: white;
+  background: rgb(144,58,180);
+  background: linear-gradient(90deg, rgba(144,58,180,1) 40%, rgba(69,69,252,1) 86%);
   box-shadow: 0px 2px 10px -3px;
 `;
 
