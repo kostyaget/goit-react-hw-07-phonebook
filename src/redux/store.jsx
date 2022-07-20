@@ -1,24 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
-import {
-    persistStore,FLUSH,
-    REHYDRATE,PAUSE,
-    PERSIST,PURGE,
-    REGISTER,
-} from 'redux-persist'
-import { persistedContactsReducer } from './contacts/slice';
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { phoneBookApi } from 'services/phoneBookApi';
 import { filterSlice } from './filter/slice';
 
-export const store = configureStore ({
-    reducer: {
-        contacts: persistedContactsReducer,
-        filter: filterSlice.reducer,
-    },
-    middleware: getDefaultMiddleware =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-            },
-        }),
+export const store = configureStore({
+  reducer: {
+    [phoneBookApi.reducerPath]: phoneBookApi.reducer,
+    filter: filterSlice.reducer,
+  },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(phoneBookApi.middleware),
 });
 
-export const persistor = persistStore(store);
+setupListeners(store.dispatch);

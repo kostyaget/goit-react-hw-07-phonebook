@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-import { getContactsItems, addContact } from 'redux/contacts/slice';
-import { showInfoMessage, showSuccessMessage } from 'utils/notofications';
+import {useGetAllContactsQuery,useAddContactMutation,} from 'services/phoneBookApi';
+// import { getContactsItems, addContact } from 'redux/contacts/slice';
+import { showInfoMessage, showSuccessMessage, showErrorMessage } from 'utils/notofications';
 import {
   FormWrapper,
   ContactSubmitForm,
@@ -15,8 +16,10 @@ export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const contacts = useSelector(getContactsItems);
-  const dispatch = useDispatch();
+  const { data: contacts } = useGetAllContactsQuery();
+  const [addContact, { isLoading: isCreating }] = useAddContactMutation();
+  // const contacts = useSelector(getContactsItems);
+  // const dispatch = useDispatch();
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
@@ -45,18 +48,26 @@ export default function ContactForm() {
       )
     ) {
       showInfoMessage('This contact is already in your phonebook');
-      return;
     }
 
     if (contacts.find(contact => contact.number === number)) {
       showInfoMessage('This phone number is already in your phonebook');
-      return;
     }
 
-    dispatch(addContact({ name, number }));
-    showSuccessMessage('New contact has been added in your phonebook');
-    formReset();
-  };
+    const newContact = {
+      name,
+      number,
+    };
+
+    try {
+      addContact(newContact);
+      showSuccessMessage('New contact has been added in your phonebook');
+    } catch (error) {
+      console.log(error.message);
+      showErrorMessage('Something goes wrong, new contact was not created');
+    };
+  }
+
 
 
   return (
@@ -90,7 +101,9 @@ export default function ContactForm() {
             required
           />
         </FormInputLabel>
-        <FormSubmitBtn type="submit">Add contact</FormSubmitBtn>
+        <FormSubmitBtn type="submit" disabled={isCreating}>
+          {isCreating ? 'Adding...' : 'Add contact'}
+        </FormSubmitBtn>
       </ContactSubmitForm>
     </FormWrapper> 
   );
