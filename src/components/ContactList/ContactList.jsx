@@ -57,7 +57,7 @@ export default function ContactList() {
             {visibleContacts.length ? (
                 visibleContacts.map(({ id, name, number }) => (
                 <ListElement key={id}>
-                    <ContactItem id={id} name={name} phone={number} />
+                    <ContactItem id={id} name={name} number={number} />
                 </ListElement>
             ))
             ) : (

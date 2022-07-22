@@ -52,6 +52,7 @@ export default function ContactForm() {
 
     if (contacts.find(contact => contact.number === number)) {
       showInfoMessage('This phone number is already in your phonebook');
+      return;
     }
 
     const newContact = {
