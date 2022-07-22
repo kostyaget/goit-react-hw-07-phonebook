@@ -66,6 +66,7 @@ export default function ContactForm() {
       console.log(error.message);
       showErrorMessage('Something goes wrong, new contact was not created');
     };
+      formReset();
   }
 
 

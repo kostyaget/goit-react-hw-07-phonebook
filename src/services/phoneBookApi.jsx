@@ -4,19 +4,19 @@ export const phoneBookApi = createApi({
     reducerPath: 'phoneBookApi',
 
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://62d7dc7649c87ff2af3e7b11.mockapi.io/phoneBook_api/v1/',
+        baseUrl: 'https://62da5bc5e56f6d82a75f70d8.mockapi.io/contacts',
     }),
     tagTypes: ['Contact'],
 
     endpoints: bulder => ({
         getAllContacts: bulder.query({
-            query: () => `./contacts`,
+            query: () => `/`,
             providesTags: ['Contact'],
         }),
 
         addContact: bulder.mutation({
             query: newContact => ({
-                url: `./contacts`,
+                url: `/`,
                 method: 'POST',
                 body: newContact,
             }),
@@ -25,7 +25,7 @@ export const phoneBookApi = createApi({
 
         deleteContact: bulder.mutation({
             query: contactId => ({
-                url: `./contacts/${contactId}`,
+                url: `/${contactId}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['Contact'],

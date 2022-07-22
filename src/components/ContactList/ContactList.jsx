@@ -16,7 +16,7 @@ import { useGetAllContactsQuery } from 'services/phoneBookApi';
 
 export default function ContactList() {
     const {
-    data: contacts,
+    data = [],
     isLoading,
     isError,
     refetch,
@@ -25,18 +25,18 @@ export default function ContactList() {
     const filterValue = useSelector(getFilterValue);
 
     const totalContactsAmount = () => {
-    if (!contacts) {
+    if (!data) {
         return 0;
     }
-    return contacts.length;
+    return data.length;
     };
 
     const getVisibleContacts = () => {
     const normalizedFilter = filterValue.toLowerCase();
-    return contacts
-        .filter(contact =>
-        contact.name.toLowerCase().includes(normalizedFilter) ||
-        contact.number.includes(normalizedFilter)
+    return data
+        .filter(data =>
+        data.name.toLowerCase().includes(normalizedFilter) ||
+        data.number.includes(normalizedFilter)
     )
     .sort(sortContactsByName);
     };
