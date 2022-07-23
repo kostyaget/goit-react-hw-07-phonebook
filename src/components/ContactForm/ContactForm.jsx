@@ -43,11 +43,11 @@ export default function ContactForm() {
     if (
       contacts.find(
         contact =>
-          contact.name.toLowerCase() === name.toLowerCase() &&
-          contact.number === number
+          contact.name.toLowerCase() === name.toLowerCase() 
       )
     ) {
       showInfoMessage('This contact is already in your phonebook');
+      return;
     }
 
     if (contacts.find(contact => contact.number === number)) {
